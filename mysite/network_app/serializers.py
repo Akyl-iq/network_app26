@@ -50,6 +50,16 @@ class LoginSerializer(serializers.Serializer):
         }
 
 
+class UserProfileListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'first_name', 'last_name']
+
+class UserProfileDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile

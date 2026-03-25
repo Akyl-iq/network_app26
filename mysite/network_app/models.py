@@ -11,6 +11,8 @@ class UserProfile(AbstractUser):
     date_register = models.DateTimeField(auto_now_add=True)
 
 
+
+
 class Follow(models.Model):
     follower = models.ForeignKey(UserProfile, related_name='following_set', on_delete=models.CASCADE)
     following = models.ForeignKey(UserProfile, related_name='followers_set', on_delete=models.CASCADE)
@@ -37,6 +39,8 @@ class PostLike(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     like = models.BooleanField(default=False)
+
+
 
 
 class Comment(models.Model):

@@ -6,10 +6,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     UserProfile, Post, Comment, CommentLike, SavePost, SavePostItem, Story, Hashtag
 )
-from .serializer import (
-    UserProfileSerializer, PostSerializer, CommentSerializer, CommentLikeSerializer,
+from .serializers import (
+    PostSerializer, CommentSerializer, CommentLikeSerializer,
     SavePostSerializer, SavePostItemSerializer, StorySerializer, HashtagSerializer,
-    UserRegisterSerializer, LoginSerializer
+    UserRegisterSerializer, LoginSerializer, UserProfileListSerializer,
+    UserProfileDetailSerializer
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -57,12 +58,19 @@ class LogoutView(APIView):
             return Response({'detail': 'Недействительный токен.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserProfileViewSet(viewsets.ModelViewSet):
+class UserProfileListAPIView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileListSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return UserProfile.objects.filter(id=self.request.user.id)
+
+
+class UserProfileDetailAPIView(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileDetailSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class PostViewSet(viewsets.ModelViewSet):
